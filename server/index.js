@@ -22,6 +22,17 @@ const port = 3000
 app.use('/server/user',userRouter);
 app.use('/server/auth',authRouter)
 
+//creating middleware for error 
+app.use((err,req,res,next)=>{
+const statusCode=err.statusCode || 500;
+const message = err.message || 'internal server error'
+return res.status(statusCode).json({
+    sucess:false,
+    statusCode,
+    message,
+})
+})
+
 app.listen(port,()=>{
 console.log(`App running on port ${port}`)
 })
